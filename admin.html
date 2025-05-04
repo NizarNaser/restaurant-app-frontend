@@ -107,8 +107,6 @@
     }
   }
 
-  // تحميل الفئات عند فتح الصفحة
-  loadCategories();
   window.addEventListener('DOMContentLoaded', async () => {
   const select = document.getElementById('addelSelect');
   try {
@@ -126,7 +124,8 @@
     alert('حدث خطأ أثناء تحميل بيانات الآديل.');
   }
 });
-
+  // تحميل الفئات عند فتح الصفحة
+  loadCategories();
 
 
 
