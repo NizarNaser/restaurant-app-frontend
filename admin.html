@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>إدارة الفئات والعناصر</title>
   <style>
-    body { font-family: Arial; margin: 20px; background: #f9f9f9; }
+    body { font-family: Arial; margin: 20px; background: #f9f9f9; direction: rtl; }
     h2 { color: #333; }
     form { background: #fff; padding: 15px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 0 10px #ddd; }
     input, textarea, button, select { display: block; width: 100%; margin: 10px 0; padding: 10px; font-size: 1rem; }
@@ -32,7 +32,6 @@
     <select name="category" id="categorySelect" required>
       <option value="">-- اختر الفئة --</option>
     </select>
-    
     <label>
       <input type="checkbox" name="isPopular" /> عنصر شائع
     </label>
@@ -41,81 +40,113 @@
   </form>
 
   <script>
-   
-    const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api'; // عدّله حسب رابطك الفعلي
+    const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api';
 
-    // معالجة إضافة الفئة
+    // إرسال الفئة
     document.getElementById('categoryForm').addEventListener('submit', async (e) => {
-   e.preventDefault();
-   const formData = new FormData(e.target);
-  
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
 
-   const res = await fetch(`${backendBaseUrl}/categories`, {
-     method: 'POST',
-     body: formData
-   });
-   const data = await res.json();
-   console.log('Category added:', data);
-   alert('تم حفظ الفئة بنجاح!');
-});
+      try {
+        const res = await fetch(`${backendBaseUrl}/categories`, {
+          method: 'POST',
+          body: formData
+        });
 
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'فشل في حفظ الفئة');
+        }
 
-    // معالجة إضافة العنصر
+        const data = await res.json();
+        console.log('Category added:', data);
+        alert('✅ تم حفظ الفئة بنجاح!');
+        form.reset();
+        loadCategories(); // لتحديث قائمة الفئات بعد الإضافة
+      } catch (err) {
+        console.error(err);
+        alert('❌ ' + err.message);
+      }
+    });
+
+    // إرسال العنصر
     document.getElementById('itemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(e.target);
+      const form = e.target;
+      const formData = new FormData(form);
       if (!formData.get('isPopular')) formData.set('isPopular', 'false');
-      const res = await fetch(`${backendBaseUrl}/items`, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      console.log('Item added:', data);
-      alert('تم حفظ العنصر بنجاح!');
+
+      try {
+        const res = await fetch(`${backendBaseUrl}/items`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'فشل في حفظ العنصر');
+        }
+
+        const data = await res.json();
+        console.log('Item added:', data);
+        alert('✅ تم حفظ العنصر بنجاح!');
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        alert('❌ ' + err.message);
+      }
     });
 
-    // تحميل الفئات تلقائيًا في select
- // تحميل الفئات من قاعدة البيانات وعرضها في الـ <select>
-  async function loadCategories() {
-    try {
-      const res = await fetch(`${backendBaseUrl}/categories`);
-      const categories = await res.json();
+    // تحميل الفئات داخل select
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${backendBaseUrl}/categories`);
+        if (!res.ok) throw new Error('لم يتم تحميل الفئات');
+        const categories = await res.json();
 
-      const categorySelect = document.getElementById('categorySelect');
-      categories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat._id;
-        option.textContent = cat.name;
-        categorySelect.appendChild(option);
-      });
-    } catch (err) {
-      console.error('فشل في تحميل الفئات:', err);
-      alert('حدث خطأ أثناء تحميل الفئات من السيرفر.');
+        const categorySelect = document.getElementById('categorySelect');
+        categorySelect.innerHTML = '<option value="">-- اختر الفئة --</option>'; // إعادة التهيئة
+
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat._id;
+          option.textContent = cat.name;
+          categorySelect.appendChild(option);
+        });
+      } catch (err) {
+        console.error(err);
+        alert('❌ حدث خطأ أثناء تحميل الفئات من السيرفر.');
+      }
     }
-  }
 
-  window.addEventListener('DOMContentLoaded', async () => {
-  const select = document.getElementById('addelSelect');
-  try {
-    const res = await fetch(`${backendBaseUrl}/addels`);
-    const addels = await res.json();
+    // تحميل الآديلات داخل select
+    async function loadAddels() {
+      try {
+        const res = await fetch(`${backendBaseUrl}/addels`);
+        if (!res.ok) throw new Error('لم يتم تحميل بيانات الآديل');
+        const addels = await res.json();
 
-    addels.forEach((addel) => {
-      const option = document.createElement('option');
-      option.value = addel._id;
-      option.textContent = addel.name;
-      select.appendChild(option);
+        const addelSelect = document.getElementById('addelSelect');
+        addelSelect.innerHTML = '<option value="">-- اختر آديل --</option>'; // إعادة التهيئة
+
+        addels.forEach(addel => {
+          const option = document.createElement('option');
+          option.value = addel._id;
+          option.textContent = addel.name;
+          addelSelect.appendChild(option);
+        });
+      } catch (err) {
+        console.error(err);
+        alert('❌ حدث خطأ أثناء تحميل بيانات الآديل.');
+      }
+    }
+
+    // عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAddels();
+      loadCategories();
     });
-  } catch (err) {
-    console.error('فشل في تحميل الـ Addels:', err);
-    alert('حدث خطأ أثناء تحميل بيانات الآديل.');
-  }
-});
-  // تحميل الفئات عند فتح الصفحة
-  loadCategories();
-
-
-
   </script>
 </body>
 </html>
