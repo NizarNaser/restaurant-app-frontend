@@ -38,9 +38,27 @@
   <script>
     const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api'; // عدّله حسب رابطك الفعلي
 
+    // تحويل addel إلى ObjectId بناءً على المدخلات
+    function getAddelObjectId(addelText) {
+      if (addelText === 'Bar') {
+        return 'الـ ObjectId الخاص بـ Bar'; // استبدل بـ ObjectId الفعلي لـ Bar
+      } else if (addelText === 'Kochen') {
+        return 'الـ ObjectId الخاص بـ Kochen'; // استبدل بـ ObjectId الفعلي لـ Kochen
+      } else {
+        alert('معرف الآديل يجب أن يكون "Bar" أو "Kochen"');
+        return null;
+      }
+    }
+
+    // معالجة إضافة الفئة
     document.getElementById('categoryForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
+      const addelText = formData.get('addel');
+      const addel = getAddelObjectId(addelText);
+      if (!addel) return; // إذا كانت القيمة غير صحيحة، توقف عن إرسال الطلب
+      
+      formData.set('addel', addel); // استبدال النص بـ ObjectId
       const res = await fetch(`${backendBaseUrl}/categories`, {
         method: 'POST',
         body: formData
@@ -50,6 +68,7 @@
       alert('تم حفظ الفئة بنجاح!');
     });
 
+    // معالجة إضافة العنصر
     document.getElementById('itemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
