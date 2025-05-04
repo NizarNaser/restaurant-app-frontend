@@ -30,7 +30,10 @@
     <input type="text" name="name" placeholder="اسم العنصر" required />
     <textarea name="description" placeholder="الوصف"></textarea>
     <input type="number" name="price" placeholder="السعر (€)" step="0.01" required />
-    <input type="text" name="category" placeholder="معرف الفئة" required />
+    <select name="category" id="categorySelect" required>
+      <option value="">-- اختر الفئة --</option>
+    </select>
+    
     <label>
       <input type="checkbox" name="isPopular" /> عنصر شائع
     </label>
@@ -83,6 +86,28 @@
       console.log('Item added:', data);
       alert('تم حفظ العنصر بنجاح!');
     });
+
+    // تحميل الفئات تلقائيًا في select
+async function loadCategories() {
+  try {
+    const res = await fetch(`${backendBaseUrl}/categories`);
+    const categories = await res.json();
+
+    const categorySelect = document.getElementById('categorySelect');
+    categories.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat._id;
+      option.textContent = cat.name;
+      categorySelect.appendChild(option);
+    });
+  } catch (err) {
+    console.error('فشل في تحميل الفئات:', err);
+    alert('حدث خطأ أثناء تحميل الفئات');
+  }
+}
+
+loadCategories(); // استدعاء عند بداية الصفحة
+
   </script>
 </body>
 </html>
