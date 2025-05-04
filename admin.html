@@ -42,6 +42,7 @@
   </form>
 
   <script>
+    loadCategories(); // استدعاء عند بداية الصفحة
     const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api'; // عدّله حسب رابطك الفعلي
 
     // معالجة إضافة الفئة
@@ -106,7 +107,7 @@ async function loadCategories() {
   }
 }
 
-loadCategories(); // استدعاء عند بداية الصفحة
+
 
   </script>
 </body>
