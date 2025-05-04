@@ -17,9 +17,8 @@
   <h2>إضافة فئة (Category)</h2>
   <form id="categoryForm">
     <input type="text" name="name" placeholder="اسم الفئة" required />
-    <select name="addel" required>
-        <option value="Bar">Bar</option>
-        <option value="Kochen">Kochen</option>
+    <select name="addel" id="addelSelect" required>
+      <option value="">-- اختر آديل --</option>
     </select>
     <input type="file" name="image" accept="image/*" required />
     <button type="submit">حفظ الفئة</button>
@@ -110,6 +109,24 @@
 
   // تحميل الفئات عند فتح الصفحة
   loadCategories();
+  window.addEventListener('DOMContentLoaded', async () => {
+  const select = document.getElementById('addelSelect');
+  try {
+    const res = await fetch(`${backendBaseUrl}/addels`);
+    const addels = await res.json();
+
+    addels.forEach((addel) => {
+      const option = document.createElement('option');
+      option.value = addel._id;
+      option.textContent = addel.name;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error('فشل في تحميل الـ Addels:', err);
+    alert('حدث خطأ أثناء تحميل بيانات الآديل.');
+  }
+});
+
 
 
 
