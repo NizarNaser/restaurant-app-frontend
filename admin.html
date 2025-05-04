@@ -5,12 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manage Categories and Items</title>
   <style>
-    body { font-family: Arial; margin: 20px; background: #f9f9f9; direction: ltr; }
-    h2 { color: #333; }
-    form { background: #fff; padding: 15px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 0 10px #ddd; }
-    input, textarea, button, select { display: block; width: 100%; margin: 10px 0; padding: 10px; font-size: 1rem; }
-    button { background: #28a745; color: white; border: none; cursor: pointer; }
-    button:hover { background: #218838; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      direction: ltr;
+    }
+    h2 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ddd;
+    }
+    input, textarea, button, select {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
   </style>
 </head>
 <body>
@@ -63,7 +89,7 @@
         console.log('Category added:', data);
         alert('✅ Category saved successfully!');
         form.reset();
-        loadCategories();
+        loadCategories(); // Refresh category select
       } catch (err) {
         console.error(err);
         alert('❌ ' + err.message);
@@ -98,21 +124,22 @@
       }
     });
 
-    // Load categories into category select
+    // Load categories into category select for both forms
     async function loadCategories() {
       try {
         const res = await fetch(`${backendBaseUrl}/categories`);
         if (!res.ok) throw new Error('Failed to load categories');
         const categories = await res.json();
 
-        const categorySelect = document.getElementById('categorySelect');
-        categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-
-        categories.forEach(cat => {
-          const option = document.createElement('option');
-          option.value = cat._id;
-          option.textContent = cat.name;
-          categorySelect.appendChild(option);
+        // Update each category select (assuming both forms share the same id "categorySelect")
+        document.querySelectorAll('#categorySelect').forEach(select => {
+          select.innerHTML = '<option value="">-- Select Category --</option>';
+          categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat._id;
+            option.textContent = cat.name;
+            select.appendChild(option);
+          });
         });
       } catch (err) {
         console.error(err);
@@ -120,7 +147,7 @@
       }
     }
 
-    // Load addels into addel select
+    // Load addels into addel select (for category form)
     async function loadAddels() {
       try {
         const res = await fetch(`${backendBaseUrl}/addels`);
@@ -142,7 +169,6 @@
       }
     }
 
-    // On page load
     window.addEventListener('DOMContentLoaded', () => {
       loadAddels();
       loadCategories();

@@ -1,51 +1,57 @@
 body {
-    font-family: 'Arial', sans-serif;
-    direction: rtl;
-    background: #f9f9f9;
-    margin: 0;
-    padding: 0;
-  }
-  
-  header, footer {
-    background: #222;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
-  }
-  
-  main {
-    padding: 20px;
-  }
-  
-  h2 {
-    margin-top: 40px;
-    color: #333;
-  }
-  
-  .google-ad {
-    background: #ddd;
-    padding: 20px;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-  
-  .items-grid, .addels-grid, .category-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-  
-  .card {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 8px;
-    text-align: center;
-    transition: transform 0.2s ease;
-  }
-  
-  .card:hover {
-    transform: scale(1.03);
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  direction: ltr;
+}
+
+header, footer {
+  background: #222;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+main {
+  padding: 20px;
+}
+
+h2 {
+  margin-top: 40px;
+  color: #333;
+}
+
+/* Ad placeholders */
+.google-ad {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Grid layouts */
+.items-grid, .addels-grid, .category-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+/* Example card styling */
+.card {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
