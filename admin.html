@@ -42,7 +42,7 @@
   </form>
 
   <script>
-    loadCategories(); // استدعاء عند بداية الصفحة
+   
     const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api'; // عدّله حسب رابطك الفعلي
 
     // معالجة إضافة الفئة
@@ -89,23 +89,27 @@
     });
 
     // تحميل الفئات تلقائيًا في select
-async function loadCategories() {
-  try {
-    const res = await fetch(`${backendBaseUrl}/categories`);
-    const categories = await res.json();
+ // تحميل الفئات من قاعدة البيانات وعرضها في الـ <select>
+  async function loadCategories() {
+    try {
+      const res = await fetch(`${backendBaseUrl}/categories`);
+      const categories = await res.json();
 
-    const categorySelect = document.getElementById('categorySelect');
-    categories.forEach(cat => {
-      const option = document.createElement('option');
-      option.value = cat._id;
-      option.textContent = cat.name;
-      categorySelect.appendChild(option);
-    });
-  } catch (err) {
-    console.error('فشل في تحميل الفئات:', err);
-    alert('حدث خطأ أثناء تحميل الفئات');
+      const categorySelect = document.getElementById('categorySelect');
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat._id;
+        option.textContent = cat.name;
+        categorySelect.appendChild(option);
+      });
+    } catch (err) {
+      console.error('فشل في تحميل الفئات:', err);
+      alert('حدث خطأ أثناء تحميل الفئات من السيرفر.');
+    }
   }
-}
+
+  // تحميل الفئات عند فتح الصفحة
+  loadCategories();
 
 
 
