@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>إدارة الفئات والعناصر</title>
+  <title>Manage Categories and Items</title>
   <style>
-    body { font-family: Arial; margin: 20px; background: #f9f9f9; direction: rtl; }
+    body { font-family: Arial; margin: 20px; background: #f9f9f9; direction: ltr; }
     h2 { color: #333; }
     form { background: #fff; padding: 15px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 0 10px #ddd; }
     input, textarea, button, select { display: block; width: 100%; margin: 10px 0; padding: 10px; font-size: 1rem; }
@@ -14,35 +14,35 @@
   </style>
 </head>
 <body>
-  <h2>إضافة فئة (Category)</h2>
+  <h2>Add Category</h2>
   <form id="categoryForm">
-    <input type="text" name="name" placeholder="اسم الفئة" required />
+    <input type="text" name="name" placeholder="Category Name" required />
     <select name="addel" id="addelSelect" required>
-      <option value="">-- اختر آديل --</option>
+      <option value="">-- Select Addel --</option>
     </select>
     <input type="file" name="image" accept="image/*" required />
-    <button type="submit">حفظ الفئة</button>
+    <button type="submit">Save Category</button>
   </form>
 
-  <h2>إضافة عنصر (Item)</h2>
+  <h2>Add Item</h2>
   <form id="itemForm">
-    <input type="text" name="name" placeholder="اسم العنصر" required />
-    <textarea name="description" placeholder="الوصف"></textarea>
-    <input type="number" name="price" placeholder="السعر (€)" step="0.01" required />
+    <input type="text" name="name" placeholder="Item Name" required />
+    <textarea name="description" placeholder="Description"></textarea>
+    <input type="number" name="price" placeholder="Price (€)" step="0.01" required />
     <select name="category" id="categorySelect" required>
-      <option value="">-- اختر الفئة --</option>
+      <option value="">-- Select Category --</option>
     </select>
     <label>
-      <input type="checkbox" name="isPopular" /> عنصر شائع
+      <input type="checkbox" name="isPopular" /> Popular Item
     </label>
     <input type="file" name="image" accept="image/*" required />
-    <button type="submit">حفظ العنصر</button>
+    <button type="submit">Save Item</button>
   </form>
 
   <script>
-    const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/api';
+    const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com/';
 
-    // إرسال الفئة
+    // Submit category form
     document.getElementById('categoryForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -56,21 +56,21 @@
 
         if (!res.ok) {
           const errorData = await res.json();
-          throw new Error(errorData.message || 'فشل في حفظ الفئة');
+          throw new Error(errorData.message || 'Failed to save category');
         }
 
         const data = await res.json();
         console.log('Category added:', data);
-        alert('✅ تم حفظ الفئة بنجاح!');
+        alert('✅ Category saved successfully!');
         form.reset();
-        loadCategories(); // لتحديث قائمة الفئات بعد الإضافة
+        loadCategories();
       } catch (err) {
         console.error(err);
         alert('❌ ' + err.message);
       }
     });
 
-    // إرسال العنصر
+    // Submit item form
     document.getElementById('itemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -85,12 +85,12 @@
 
         if (!res.ok) {
           const errorData = await res.json();
-          throw new Error(errorData.message || 'فشل في حفظ العنصر');
+          throw new Error(errorData.message || 'Failed to save item');
         }
 
         const data = await res.json();
         console.log('Item added:', data);
-        alert('✅ تم حفظ العنصر بنجاح!');
+        alert('✅ Item saved successfully!');
         form.reset();
       } catch (err) {
         console.error(err);
@@ -98,15 +98,15 @@
       }
     });
 
-    // تحميل الفئات داخل select
+    // Load categories into category select
     async function loadCategories() {
       try {
         const res = await fetch(`${backendBaseUrl}/categories`);
-        if (!res.ok) throw new Error('لم يتم تحميل الفئات');
+        if (!res.ok) throw new Error('Failed to load categories');
         const categories = await res.json();
 
         const categorySelect = document.getElementById('categorySelect');
-        categorySelect.innerHTML = '<option value="">-- اختر الفئة --</option>'; // إعادة التهيئة
+        categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
 
         categories.forEach(cat => {
           const option = document.createElement('option');
@@ -116,19 +116,19 @@
         });
       } catch (err) {
         console.error(err);
-        alert('❌ حدث خطأ أثناء تحميل الفئات من السيرفر.');
+        alert('❌ Error loading categories from server.');
       }
     }
 
-    // تحميل الآديلات داخل select
+    // Load addels into addel select
     async function loadAddels() {
       try {
         const res = await fetch(`${backendBaseUrl}/addels`);
-        if (!res.ok) throw new Error('لم يتم تحميل بيانات الآديل');
+        if (!res.ok) throw new Error('Failed to load addels');
         const addels = await res.json();
 
         const addelSelect = document.getElementById('addelSelect');
-        addelSelect.innerHTML = '<option value="">-- اختر آديل --</option>'; // إعادة التهيئة
+        addelSelect.innerHTML = '<option value="">-- Select Addel --</option>';
 
         addels.forEach(addel => {
           const option = document.createElement('option');
@@ -138,11 +138,11 @@
         });
       } catch (err) {
         console.error(err);
-        alert('❌ حدث خطأ أثناء تحميل بيانات الآديل.');
+        alert('❌ Error loading addels from server.');
       }
     }
 
-    // عند تحميل الصفحة
+    // On page load
     window.addEventListener('DOMContentLoaded', () => {
       loadAddels();
       loadCategories();

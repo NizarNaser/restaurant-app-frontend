@@ -1,46 +1,56 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قائمة المطعم</title>
+  <title>Restaurant Menu | Delicious Dishes and Popular Items</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Our restaurant offers the best Eastern and Western food with exceptional service. Browse popular dishes and diverse categories.">
+  <meta name="keywords" content="restaurant, food, menu, meals, Arabic cuisine, Western food, popular items, dishes">
+  <meta name="author" content="Our Restaurant">
+  <meta name="robots" content="index, follow">
+
+  <!-- CSS File -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🍽️ مرحباً بك في المطعم</h1>
-    <a href="admin.html">admin</a>
+    <h1>🍽️ Welcome to Our Restaurant</h1>
+    <nav>
+      <a href="admin.html" rel="nofollow">Admin Panel</a>
+    </nav>
   </header>
 
   <main>
     <section id="ads">
-      <!-- مكان إعلان Google -->
-      <div class="google-ad">🔲 مساحة إعلان Google</div>
+      <!-- Google Ad Area -->
+      <div class="google-ad" aria-label="Google Ad">🔲 Google Ad Space</div>
     </section>
 
     <section id="popular-items">
-      <h2>الأصناف الشائعة</h2>
+      <h2>Popular Items</h2>
       <div id="popular-list" class="items-grid"></div>
     </section>
 
     <section id="addels">
-      <h2>الأقسام</h2>
+      <h2>Main Sections</h2>
       <div id="addel-list" class="addels-grid"></div>
     </section>
 
     <section id="categories-section" style="display:none">
-      <h2 id="categories-title">الفئات</h2>
+      <h2 id="categories-title">Subcategories</h2>
       <div id="category-list" class="category-grid"></div>
     </section>
 
     <section id="items-section" style="display:none">
-      <h2 id="items-title">العناصر</h2>
+      <h2 id="items-title">Item List</h2>
       <div id="item-list" class="items-grid"></div>
     </section>
   </main>
 
   <footer>
-    <p>جميع الحقوق محفوظة &copy; 2025</p>
+    <p>&copy; 2025 Our Restaurant - All rights reserved</p>
   </footer>
 
   <script src="script.js"></script>

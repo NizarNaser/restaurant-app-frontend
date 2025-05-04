@@ -43,7 +43,7 @@ function loadAddels() {
 function loadCategories(addelId, addelName) {
   document.getElementById('categories-section').style.display = 'block';
   document.getElementById('items-section').style.display = 'none';
-  document.getElementById('categories-title').textContent = `الفئات - ${addelName}`;
+  document.getElementById('categories-title').textContent = `categories - ${addelName}`;
   fetch(`${API_BASE}/categories/addel/${addelId}`)
     .then(res => res.json())
     .then(data => {
@@ -62,7 +62,7 @@ function loadCategories(addelId, addelName) {
 
 function loadItems(categoryId, categoryName) {
   document.getElementById('items-section').style.display = 'block';
-  document.getElementById('items-title').textContent = `العناصر - ${categoryName}`;
+  document.getElementById('items-title').textContent = `items - ${categoryName}`;
   fetch(`${API_BASE}/items/category/${categoryId}`)
     .then(res => res.json())
     .then(data => {
