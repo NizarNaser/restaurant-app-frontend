@@ -21,7 +21,7 @@ header nav a {
 
 main {
   padding: 20px;
-  height: calc(100vh - 250px);
+  height: calc(100vh - 255px);
 }
 
 h2 {
