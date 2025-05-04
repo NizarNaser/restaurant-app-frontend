@@ -1,4 +1,4 @@
-const API_BASE = "https://restaurant-app-backend-s5yi.onrender.com";
+const API_BASE = "https://restaurant-app-backend-s5yi.onrender.com/api";
 
 document.addEventListener('DOMContentLoaded', () => {
   loadPopularItems();
