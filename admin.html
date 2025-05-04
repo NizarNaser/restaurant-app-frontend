@@ -18,8 +18,8 @@
   <form id="categoryForm">
     <input type="text" name="name" placeholder="اسم الفئة" required />
     <select name="addel" required>
-        <option value="6817920deccb432b3f065efc">Bar</option>
-        <option value="6817920deccb432b3f065efc">Kochen</option>
+        <option value="Bar">Bar</option>
+        <option value="Kochen">Kochen</option>
     </select>
     <input type="file" name="image" accept="image/*" required />
     <button type="submit">حفظ الفئة</button>
@@ -43,17 +43,32 @@
 
     // معالجة إضافة الفئة
     document.getElementById('categoryForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const addelText = formData.get('addel');
-      const res = await fetch(`${backendBaseUrl}/categories`, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      console.log('Category added:', data);
-      alert('تم حفظ الفئة بنجاح!');
-    });
+   e.preventDefault();
+   const formData = new FormData(e.target);
+   const addelText = formData.get('addel');
+
+   // استبدل هذا النص بالقيمة الصحيحة لـ ObjectId
+   let addel;
+   if (addelText === 'Bar') {
+     addel = '6817920deccb432b3f065efc'; // استبدل بهذا ObjectId الفعلي لـ Bar
+   } else if (addelText === 'Kochen') {
+     addel = '6817920deccb432b3f065f01'; // استبدل بهذا ObjectId الفعلي لـ Kochen
+   } else {
+     alert('معرف الآديل غير صالح');
+     return;
+   }
+
+   formData.set('addel', addel); // استخدام الـ ObjectId الفعلي هنا
+
+   const res = await fetch(`${backendBaseUrl}/categories`, {
+     method: 'POST',
+     body: formData
+   });
+   const data = await res.json();
+   console.log('Category added:', data);
+   alert('تم حفظ الفئة بنجاح!');
+});
+
 
     // معالجة إضافة العنصر
     document.getElementById('itemForm').addEventListener('submit', async (e) => {
