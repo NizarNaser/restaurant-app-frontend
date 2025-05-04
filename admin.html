@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إدارة الفئات والعناصر</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f9f9f9; }
+    h2 { color: #333; }
+    form { background: #fff; padding: 15px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 0 10px #ddd; }
+    input, textarea, button, select { display: block; width: 100%; margin: 10px 0; padding: 10px; font-size: 1rem; }
+    button { background: #28a745; color: white; border: none; cursor: pointer; }
+    button:hover { background: #218838; }
+  </style>
+</head>
+<body>
+  <h2>إضافة فئة (Category)</h2>
+  <form id="categoryForm">
+    <input type="text" name="name" placeholder="اسم الفئة" required />
+    <input type="text" name="addel" placeholder="معرف الآديل (Bar أو Kochen)" required />
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">حفظ الفئة</button>
+  </form>
+
+  <h2>إضافة عنصر (Item)</h2>
+  <form id="itemForm">
+    <input type="text" name="name" placeholder="اسم العنصر" required />
+    <textarea name="description" placeholder="الوصف"></textarea>
+    <input type="number" name="price" placeholder="السعر (€)" step="0.01" required />
+    <input type="text" name="category" placeholder="معرف الفئة" required />
+    <label>
+      <input type="checkbox" name="isPopular" /> عنصر شائع
+    </label>
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">حفظ العنصر</button>
+  </form>
+
+  <script>
+    const backendBaseUrl = 'https://restaurant-app-backend-s5yi.onrender.com'; // عدّله حسب رابطك الفعلي
+
+    document.getElementById('categoryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const res = await fetch(`${backendBaseUrl}/categories`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      console.log('Category added:', data);
+      alert('تم حفظ الفئة بنجاح!');
+    });
+
+    document.getElementById('itemForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      if (!formData.get('isPopular')) formData.set('isPopular', 'false');
+      const res = await fetch(`${backendBaseUrl}/items`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      console.log('Item added:', data);
+      alert('تم حفظ العنصر بنجاح!');
+    });
+  </script>
+</body>
+</html>
